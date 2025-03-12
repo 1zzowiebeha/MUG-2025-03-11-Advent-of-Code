@@ -9,6 +9,9 @@ import os
 # Place the data file in the same directory as the program file #
 
 DATA_FILENAME = 'data.txt'
+
+############
+
 BASE_FILE_PATH = os.path.join(os.path.dirname(__file__))
 DATA_FILE_PATH = os.path.join(BASE_FILE_PATH, DATA_FILENAME)
 
