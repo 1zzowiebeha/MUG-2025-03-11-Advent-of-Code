@@ -1,7 +1,6 @@
 import os
 
 # todo: tests,
-#       data safety,
 #       use generators,
 #       test file-type bytes to validate data file
 
@@ -16,31 +15,52 @@ DATA_FILE_PATH = os.path.join(BASE_FILE_PATH, DATA_FILENAME)
 ############
 
 
+def log(severity: int, message: str) -> None:
+    """Print a message with a severity of 0 or 1.
+    
+    An indicator will be prefixed to the message depending
+    on its severity, e.g "\n[!] Error: " for a severity of 1.
+    
+    Severity Levels:
+    ----------------
+    0: None
+    1: "\n[!] Error: "
+    """
+    if severity == 1:
+        print("\n[!] Error: " + message)
+        return
+    
+    print(message)
+
+
 def parse_data() -> tuple[list[int], list[int]]:
-    """Parse a space-deliminated 2-column file of integers into two lists."""
+    """Parse a space-deliminated (of N count)
+    2-column file of integers into two lists."""
     list1 = []
     list2 = []
     try:
         with open(DATA_FILE_PATH, 'r') as file_object:
-            for line in file_object.readlines():
+            for line_num, line in enumerate(file_object):
                 data = line.split(' ')
 
-                # todo: handle missing column
+                if len(data) == 1:
+                    log(1, f"missing column found in data file on line {line_num}.")
+                    print("Skipping to next available line...")
+                    continue
                 
                 try:
                     line_column1 = int(data[0])
                     line_column2 = int(data[-1].strip())
                 except ValueError:
-                    print("\n[!] Error: non-integer data found. Offending line:")
-                    print(f"'{line}'")
+                    log(1, f"non-integer data found in data file on line {line_num}.")
+                    print(f"Offending line: '{line}'")
                     print("Skipping to next available line...")
                 finally:
                     list1.append(line_column1)
                     list2.append(line_column2)
-                
-                
+                     
     except FileNotFoundError:
-        print(f"\n[!] Error: File '{DATA_FILENAME}' could not be found under the following path: \n{BASE_FILE_PATH}")
+        log(1, f"File '{DATA_FILENAME}' could not be found under the following path: \n{BASE_FILE_PATH}")
 
     return (list1, list2)
 
