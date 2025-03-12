@@ -3,7 +3,6 @@ import os
 # todo: tests,
 #       data safety,
 #       use generators,
-#       user-friendly missing file message
 #       test file-type bytes to validate data file
 
 ############
@@ -29,9 +28,10 @@ def parse_data() -> tuple[list[int], list[int]]:
                 # may fail on non-numeric non-conforming data
                 list1.append(int(data[0]))
                 list2.append(int(data[-1].strip()))
+                
     except FileNotFoundError:
-        print(f"\n[!] Warning: Filename '{DATA_FILENAME}' could not be found under path \n{BASE_FILE_PATH}")
-        
+        print(f"\n[!] Error: File '{DATA_FILENAME}' could not be found under the following path: \n{BASE_FILE_PATH}")
+
     return (list1, list2)
 
 
@@ -57,6 +57,8 @@ def caclulate_differences(l1: list[int], list2: list[int]) -> int:
     
 if __name__ == "__main__":
     list1, list2 = parse_data()
-    sum = caclulate_differences(list1, list2)
     
-    print(f"Sum of all differences: {sum}")
+    if list1 and list2:
+        sum = caclulate_differences(list1, list2)
+        
+        print(f"\nSum of all differences: {sum}")
