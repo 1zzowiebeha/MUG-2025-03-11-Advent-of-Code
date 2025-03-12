@@ -21,13 +21,16 @@ def parse_data() -> tuple[list[int], list[int]]:
     """Parse a space-deliminated 2-column file of integers into two lists."""
     list1 = []
     list2 = []
-    with open(DATA_FILE_PATH, 'r') as file_object:
-        for line in file_object.readlines():
-            data = line.split(' ')
-            
-            # may fail on non-numeric non-conforming data
-            list1.append(int(data[0]))
-            list2.append(int(data[-1].strip()))
+    try:
+        with open(DATA_FILE_PATH, 'r') as file_object:
+            for line in file_object.readlines():
+                data = line.split(' ')
+                
+                # may fail on non-numeric non-conforming data
+                list1.append(int(data[0]))
+                list2.append(int(data[-1].strip()))
+    except FileNotFoundError:
+        print(f"\n[!] Warning: Filename '{DATA_FILENAME}' could not be found under path \n{BASE_FILE_PATH}")
         
     return (list1, list2)
 
