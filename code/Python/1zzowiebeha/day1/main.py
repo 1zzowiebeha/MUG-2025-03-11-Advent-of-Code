@@ -24,10 +24,20 @@ def parse_data() -> tuple[list[int], list[int]]:
         with open(DATA_FILE_PATH, 'r') as file_object:
             for line in file_object.readlines():
                 data = line.split(' ')
+
+                # todo: handle missing column
                 
-                # may fail on non-numeric non-conforming data
-                list1.append(int(data[0]))
-                list2.append(int(data[-1].strip()))
+                try:
+                    line_column1 = int(data[0])
+                    line_column2 = int(data[-1].strip())
+                except ValueError:
+                    print("\n[!] Error: non-integer data found. Offending line:")
+                    print(f"'{line}'")
+                    print("Skipping to next available line...")
+                finally:
+                    list1.append(line_column1)
+                    list2.append(line_column2)
+                
                 
     except FileNotFoundError:
         print(f"\n[!] Error: File '{DATA_FILENAME}' could not be found under the following path: \n{BASE_FILE_PATH}")
