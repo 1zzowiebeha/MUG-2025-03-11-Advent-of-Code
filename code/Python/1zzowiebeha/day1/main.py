@@ -32,16 +32,16 @@ def parse_data() -> tuple[list[int], list[int]]:
     return (list1, list2)
 
 
-def caclulate_differences(l1: list[int], l2: list[int]) -> int:
+def caclulate_differences(l1: list[int], list2: list[int]) -> int:
     """For each smallest value of each list,
     pop, and find the difference between the two.
     Return the sum of all differences."""
     sum = 0
 
-    for iteration in range(len(l1)):
+    for iteration in range(len(list1)):
         # possible todo?: turn into generator
-        list1_nextmin = l1.pop( l1.index(min(l1)) )
-        list2_nextmin = l2.pop( l2.index(min(l2)) )
+        list1_nextmin = list1.pop( list1.index(min(list1)) )
+        list2_nextmin = list2.pop( list2.index(min(list2)) )
             
         pair = ( list1_nextmin, list2_nextmin )
             
